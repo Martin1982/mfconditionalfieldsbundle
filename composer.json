@@ -1,0 +1,24 @@
+{
+  "name": "martin1982/mfconditionalfieldsbundle",
+  "description": "Symfony MF Conditional Fields bundle",
+  "type": "symfony-bundle",
+  "version": "0.1",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Martin1982\\MfConditionalFieldsBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Martin1982\\MfConditionalFieldsBundle\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "symfony/config": "^7.0",
+    "symfony/dependency-injection": "^7.0",
+    "symfony/form": "^7.0",
+    "symfony/http-kernel": "^7.0"
+  }
+}
