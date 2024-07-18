@@ -11,7 +11,7 @@ Applications that use Symfony Flex
 Open a command console, enter your project directory and execute:
 
 ```console
-composer require <package-name>
+composer require martin1982/mfconditionalfieldsbundle
 ```
 
 Applications that don't use Symfony Flex
@@ -23,7 +23,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```console
-composer require <package-name>
+composer require martin1982/mfconditionalfieldsbundle
 ```
 
 ### Step 2: Enable the Bundle
@@ -36,6 +36,6 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    <vendor>\<bundle-name>\<bundle-long-name>::class => ['all' => true],
+    Martin1982\MfConditionalFieldsBundle\MfConditionalFieldsBundle::class => ['all' => true],
 ];
 ```
