@@ -76,6 +76,14 @@ class ConditionalFieldExtension extends AbstractTypeExtension
 
         foreach ($conditionalOptions['rules'] as $rule) {
             $this->validateRule($rule);
+
+            $parent = $form;
+            $formName = '';
+            while ($parent = $parent->getParent()) {
+                $formName = $parent->getName();
+            }
+
+            $rule['name'] = $formName . '[' . $rule['name'] . ']';
             $attributes['data-conditional-rules']['rules'][] = $rule;
         }
 
