@@ -79,6 +79,8 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             $attributes['data-conditional-rules']['rules'][] = $rule;
         }
 
+        $attributes['data-conditional-rules'] = json_encode($attributes['data-conditional-rules']);
+
         $view->vars['attr'] = array_merge($view->vars['attr'], $attributes);
     }
 
