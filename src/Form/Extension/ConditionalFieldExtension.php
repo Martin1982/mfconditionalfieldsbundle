@@ -29,16 +29,17 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             return;
         }
 
-        $this->buildRow($builder, $options);
-
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
+        parent::buildView($view, $form, $options);
+
         if (!array_key_exists('conditional_options', $options)) {
             return;
         }
 
+        $this->buildRow($view, $options);
         $conditionalOptions = $options['conditional_options'];
 
         if (!array_key_exists('container', $conditionalOptions)) {
@@ -102,15 +103,15 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         }
     }
 
-    private function buildRow(FormBuilderInterface $builder, array &$typeOptions): void
+    private function buildRow(FormView $view, array $typeOptions): void
     {
         if (!array_key_exists('container', $typeOptions['conditional_options'])) {
             throw new ConditionalFieldException('container is required in conditional_options');
         }
 
-        $typeOptions['row_attr'] = array_merge(
-            $typeOptions['row_attr'],
-                    ['class' => $typeOptions['conditional_options']['container']],
+        $view->vars['row_attr'] =  array_merge(
+            $view->vars['row_attr'],
+            ['class' => $typeOptions['conditional_options']['container']],
         );
     }
 }
