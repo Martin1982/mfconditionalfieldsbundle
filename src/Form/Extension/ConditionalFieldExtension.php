@@ -4,8 +4,8 @@ namespace Martin1982\MfConditionalFieldsBundle\Form\Extension;
 
 use Martin1982\MfConditionalFieldsBundle\Exception\ConditionalFieldException;
 use Martin1982\MfConditionalFieldsBundle\Rules\ConditionalRulesInterface;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +14,7 @@ class ConditionalFieldExtension extends AbstractTypeExtension
 {
     public static function getExtendedTypes(): iterable
     {
-        return [AbstractType::class];
+        return [FormType::class];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
