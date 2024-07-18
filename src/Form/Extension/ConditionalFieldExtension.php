@@ -108,10 +108,9 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             throw new ConditionalFieldException('container is required in conditional_options');
         }
 
-        $typeOptions['row_attr'] = array_merge($typeOptions['row_attr'], [
-            'row_attr' => [
-                'class' => $typeOptions['conditional_options']['container'],
-            ],
-        ]);
+        $typeOptions['row_attr'] = array_merge(
+            $typeOptions['row_attr'],
+                    ['class' => $typeOptions['conditional_options']['container']],
+        );
     }
 }
