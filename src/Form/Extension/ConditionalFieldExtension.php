@@ -39,12 +39,10 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             return;
         }
 
-        $this->buildRow($view, $options);
         $conditionalOptions = $options['conditional_options'];
+        $this->buildRow($view, $conditionalOptions);
 
-        if (!array_key_exists('container', $conditionalOptions)) {
-            throw new ConditionalFieldException('container is required in conditional_options');
-        }
+        $attributes['data-conditional-rules'] = [ 'container' => '.' . $conditionalOptions['container']];
 
         if (!array_key_exists('action', $conditionalOptions) || !in_array($conditionalOptions['action'], [
             ConditionalRulesInterface::ACTION_SHOW,
@@ -55,12 +53,16 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             throw new ConditionalFieldException('a valid `action` value is required in conditional_options');
         }
 
+        $attributes['data-conditional-rules']['action'] = $conditionalOptions['action'];
+
         if (!array_key_exists('logic', $conditionalOptions) || !in_array($conditionalOptions['logic'], [
             ConditionalRulesInterface::LOGIC_OR,
             ConditionalRulesInterface::LOGIC_AND,
         ])) {
             throw new ConditionalFieldException('a valid `logic` value is required in conditional_options');
         }
+
+        $attributes['data-conditional-rules']['logic'] = $conditionalOptions['logic'];
 
         if (
             !array_key_exists('rules', $conditionalOptions) ||
@@ -70,9 +72,14 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             throw new ConditionalFieldException('No rules defined');
         }
 
+        $attributes['data-conditional-rules']['rules'] = [];
+
         foreach ($conditionalOptions['rules'] as $rule) {
             $this->validateRule($rule);
+            $attributes['data-conditional-rules']['rules'][] = $rule;
         }
+
+        $view->vars['attr'] = array_merge($view->vars['attr'], $attributes);
     }
 
     private function validateRule(array $rule): void
@@ -103,15 +110,15 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         }
     }
 
-    private function buildRow(FormView $view, array $typeOptions): void
+    private function buildRow(FormView $view, array $conditionalOptions): void
     {
-        if (!array_key_exists('container', $typeOptions['conditional_options'])) {
+        if (!array_key_exists('container', $conditionalOptions)) {
             throw new ConditionalFieldException('container is required in conditional_options');
         }
 
         $view->vars['row_attr'] =  array_merge(
             $view->vars['row_attr'],
-            ['class' => $typeOptions['conditional_options']['container']],
+            ['class' => $conditionalOptions['container']],
         );
     }
 }
