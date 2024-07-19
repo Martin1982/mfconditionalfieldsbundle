@@ -121,10 +121,11 @@ class GenderType extends AbstractType implements ConditionalRulesInterface
 
 ```
 
-Future releases
-===============
+Future releases / Contribute
+============================
 
-This bundle includes a basic implementation. If you would like to contribute 
+This bundle includes a basic implementation. If you would like to contribute all options of the mf-conditional-fields
+bundle can be added.
 
 Special thanks
 ==============
