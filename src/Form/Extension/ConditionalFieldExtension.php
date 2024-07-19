@@ -32,7 +32,10 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         try{
             $builder->get('conditionalFieldJs');
         } catch (\InvalidArgumentException $argumentException) {
-            $builder->add('conditionalFieldJs', ConditionalFieldJsType::class);
+            $builder->add('conditionalFieldJs', ConditionalFieldJsType::class, [
+                'compound' => true,
+                'mapped' => false,
+            ]);
         }
     }
 
