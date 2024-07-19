@@ -3,6 +3,7 @@
 namespace Martin1982\MfConditionalFieldsBundle\Form\Extension;
 
 use Martin1982\MfConditionalFieldsBundle\Exception\ConditionalFieldException;
+use Martin1982\MfConditionalFieldsBundle\Form\ConditionalFieldJsType;
 use Martin1982\MfConditionalFieldsBundle\Rules\ConditionalRulesInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -28,7 +29,11 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         if (!array_key_exists('conditional_options', $options)) {
             return;
         }
-
+        try{
+            $builder->get('conditionalFieldJs');
+        } catch (\InvalidArgumentException $argumentException) {
+            $builder->add('conditionalFieldJs', ConditionalFieldJsType::class);
+        }
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
