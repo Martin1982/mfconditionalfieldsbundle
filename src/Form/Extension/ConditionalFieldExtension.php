@@ -7,7 +7,6 @@ use Martin1982\MfConditionalFieldsBundle\Form\ConditionalFieldJsType;
 use Martin1982\MfConditionalFieldsBundle\Rules\ConditionalRulesInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,18 +23,21 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         $resolver->setDefined(['conditional_options']);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        if (!array_key_exists('conditional_options', $options)) {
-            return;
-        }
-        try{
-            $builder->get('conditionalFieldJs');
-        } catch (\InvalidArgumentException $argumentException) {
-            $builder->add('conditionalFieldJs', ConditionalFieldJsType::class, [
+        if ($form->isRoot() && $this->viewHasConditionalFields($view)) {
+            $factory = $form->getConfig()->getFormFactory();
+            $jsBlock = $factory->createNamed('conditionalFieldJs', ConditionalFieldJsType::class, null, [
                 'compound' => true,
                 'mapped' => false,
+                'label' => null,
             ]);
+
+            if (!isset($view->vars['attr']['id'])) {
+                $view->vars['attr']['id'] = $view->vars['id'];
+            }
+            $view->children['conditionalFieldJs'] = $jsBlock->createView();
+            $view->children['conditionalFieldJs']->vars['form_id'] = '#' . $view->vars['attr']['id'];
         }
     }
 
@@ -53,20 +55,20 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         $attributes['data-conditional-rules'] = [ 'container' => '.' . $conditionalOptions['container']];
 
         if (!array_key_exists('action', $conditionalOptions) || !in_array($conditionalOptions['action'], [
-            ConditionalRulesInterface::ACTION_SHOW,
-            ConditionalRulesInterface::ACTION_HIDE,
-            ConditionalRulesInterface::ACTION_ENABLE,
-            ConditionalRulesInterface::ACTION_DISABLE,
-        ])) {
+                ConditionalRulesInterface::ACTION_SHOW,
+                ConditionalRulesInterface::ACTION_HIDE,
+                ConditionalRulesInterface::ACTION_ENABLE,
+                ConditionalRulesInterface::ACTION_DISABLE,
+            ])) {
             throw new ConditionalFieldException('a valid `action` value is required in conditional_options');
         }
 
         $attributes['data-conditional-rules']['action'] = $conditionalOptions['action'];
 
         if (!array_key_exists('logic', $conditionalOptions) || !in_array($conditionalOptions['logic'], [
-            ConditionalRulesInterface::LOGIC_OR,
-            ConditionalRulesInterface::LOGIC_AND,
-        ])) {
+                ConditionalRulesInterface::LOGIC_OR,
+                ConditionalRulesInterface::LOGIC_AND,
+            ])) {
             throw new ConditionalFieldException('a valid `logic` value is required in conditional_options');
         }
 
@@ -138,5 +140,17 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             $view->vars['row_attr'],
             ['class' => $conditionalOptions['container']],
         );
+    }
+
+    private function viewHasConditionalFields(FormView $view): bool
+    {
+        $hasConditionalFields = false;
+        foreach ($view->children as $child) {
+            if (array_key_exists('attr', $child->vars) && array_key_exists('data-conditional-rules', $child->vars['attr'])) {
+                $hasConditionalFields = true;
+                break;
+            }
+        }
+        return $hasConditionalFields;
     }
 }
