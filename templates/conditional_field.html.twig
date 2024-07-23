@@ -1,10 +1,10 @@
-{% block conditional_field_js_widget %}
+{% block conditional_field_js_row %}
     <script type="text/javascript">
         {%- set debug = 'false' %}
         {%- if app.request.server.get('APP_ENV') == 'dev' %}
             {%- set debug = 'true' %}
         {%- endif %}
-        mfConditionalFields({{ form_id }}, {
+        mfConditionalFields('{{ form_id }}', {
             debug: {{ debug }}
         });
     </script>
