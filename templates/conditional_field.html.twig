@@ -4,6 +4,9 @@
         {%- if app.request.server.get('APP_ENV') == 'dev' %}
             {%- set debug = 'true' %}
         {%- endif %}
+        if (!mfConditionalFields) {
+            throw new Error('mfConditionalFields is not defined, did you load the JS library?');
+        }
         mfConditionalFields('{{ form_id }}', {
             debug: {{ debug }}
         });
