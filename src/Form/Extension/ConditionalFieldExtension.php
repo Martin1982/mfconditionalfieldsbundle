@@ -27,11 +27,7 @@ class ConditionalFieldExtension extends AbstractTypeExtension
     {
         if ($form->isRoot() && $this->viewHasConditionalFields($view)) {
             $factory = $form->getConfig()->getFormFactory();
-            $jsBlock = $factory->createNamed('conditionalFieldJs', ConditionalFieldJsType::class, null, [
-                'compound' => true,
-                'mapped' => false,
-                'label' => null,
-            ]);
+            $jsBlock = $factory->createNamed('conditionalFieldJs', ConditionalFieldJsType::class);
 
             if (!isset($view->vars['attr']['id'])) {
                 $view->vars['attr']['id'] = $view->vars['id'];
