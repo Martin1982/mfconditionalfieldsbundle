@@ -6,9 +6,10 @@
         {%- endif %}
         if (typeof mfConditionalFields === 'undefined') {
             console.error('mfConditionalFields is not defined, did you load the JS library?');
+        } else {
+            mfConditionalFields('{{ form_id }}', {
+                debug: {{ debug }}
+            });
         }
-        mfConditionalFields('{{ form_id }}', {
-            debug: {{ debug }}
-        });
     </script>
 {% endblock %}
