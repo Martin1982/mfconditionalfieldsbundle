@@ -2,7 +2,6 @@
   "name": "martin1982/mfconditionalfieldsbundle",
   "description": "Symfony MF Conditional Fields bundle",
   "type": "symfony-bundle",
-  "version": "0.1",
   "license": "MIT",
   "autoload": {
     "psr-4": {
