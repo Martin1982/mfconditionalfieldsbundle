@@ -46,13 +46,22 @@ return [
 ];
 ```
 
+### Step 3: Enable the form theme
+
+When using Twig you can initialize a form with conditional fields using a `form_theme` setting in your twig config:
+
+```yaml
+twig:
+    form_themes: ['@MfConditionalFieldsBundle/conditional_field.html.twig']
+```
+
 Usage
 =====
 
 On your FormType class implement the `ConditionalRulesInterface` for easy access to all options. When adding a field
 using the FormBuilder you can make a field dependent by providing the `conditional_options` option.
 
-The following options are availabe:
+The following options are available:
 
 | Name      |  Type  |                                                             Description |
 |:----------|:------:|------------------------------------------------------------------------:|
@@ -72,7 +81,7 @@ The rules consist of these options:
 Example
 =======
 
-In this example the code from the Symfony documentation is used to select if someone is attending. In addition it'll 
+In this example the code from the Symfony documentation is used to select if someone is attending. In addition, it'll 
 show a reason text element when a user selects 'Maybe' as an option.
 
 ```php
@@ -89,7 +98,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 
-class GenderType extends AbstractType implements ConditionalRulesInterface
+class AttendType extends AbstractType implements ConditionalRulesInterface
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
