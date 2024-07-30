@@ -2,7 +2,35 @@ Prerequisites
 =============
 
 Make sure you load the [mf-conditional fields JS library](https://github.com/bomsn/mf-conditional-fields) in your
-project on the pages where you use conditional fields.
+project on the pages where you use conditional fields. You can either use script or module, currently
+the script is executed when `mfConditionalFields` is available in the global namespace. 
+
+If you use a bundler (like Webpack), make sure to implement form initialization.
+
+Example;
+
+```javascript
+import mfConditionalFields from "mf-conditional-fields";
+
+let initialized = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-conditional-rules]').forEach((element) => {
+        let form = element.closest('form');
+        let formId = form.getAttribute('id');
+
+        if (initialized.includes(formId)) {
+            return;
+        }
+
+        initialized.push(formId);
+
+        mfConditionalFields('#' + formId, {
+            debug: process.env.NODE_ENV === 'development',
+        });
+    });
+});
+```
 
 Installation
 ============
