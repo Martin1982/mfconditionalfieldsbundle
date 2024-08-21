@@ -80,7 +80,7 @@ When using Twig you can initialize a form with conditional fields using a `form_
 
 ```yaml
 twig:
-    form_themes: ['@MfConditionalFieldsBundle/conditional_field.html.twig']
+    form_themes: ['@MfConditionalFields/conditional_field.html.twig']
 ```
 
 Usage
