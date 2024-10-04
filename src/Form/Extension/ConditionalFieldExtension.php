@@ -121,7 +121,9 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             throw new ConditionalFieldException('a valid `operator` value is required in conditional_options');
         }
 
-        if (!array_key_exists('value', $rule)) {
+        if (!array_key_exists('value', $rule) &&
+            $rule['operator'] !== ConditionalRulesInterface::OPERATOR_IS_EMPTY &&
+            $rule['operator'] !== ConditionalRulesInterface::OPERATOR_IS_NOT_EMPTY) {
             throw new ConditionalFieldException('a valid `value` value is required in conditional_options');
         }
     }
