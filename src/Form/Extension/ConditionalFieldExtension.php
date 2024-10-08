@@ -148,6 +148,11 @@ class ConditionalFieldExtension extends AbstractTypeExtension
                 $hasConditionalFields = true;
                 break;
             }
+
+            if ($child->children) {
+                $hasConditionalFields = $this->viewHasConditionalFields($child);
+                break;
+            }
         }
         return $hasConditionalFields;
     }
