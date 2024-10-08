@@ -84,12 +84,16 @@ class ConditionalFieldExtension extends AbstractTypeExtension
             $this->validateRule($rule);
 
             $parent = $form;
-            $formName = '';
+            $typeNames = [];
             while ($parent = $parent->getParent()) {
-                $formName = $parent->getName();
+                $typeNames[] = $parent->getName();
             }
+            $typeNames = array_reverse($typeNames);
+            $fieldName = array_shift($typeNames);
+            $typeNames[] = $rule['name'];
+            $fieldName .= '[' . implode('][', $typeNames) . ']';
 
-            $rule['name'] = $formName . '[' . $rule['name'] . ']';
+            $rule['name'] = $fieldName;
             $attributes['data-conditional-rules']['rules'][] = $rule;
         }
 
@@ -146,6 +150,11 @@ class ConditionalFieldExtension extends AbstractTypeExtension
         foreach ($view->children as $child) {
             if (array_key_exists('attr', $child->vars) && array_key_exists('data-conditional-rules', $child->vars['attr'])) {
                 $hasConditionalFields = true;
+                break;
+            }
+
+            if ($child->children) {
+                $hasConditionalFields = $this->viewHasConditionalFields($child);
                 break;
             }
         }
