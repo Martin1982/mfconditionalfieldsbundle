@@ -25,7 +25,7 @@ class ConditionalFieldExtension extends AbstractTypeExtension
 
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        if ($form->isRoot() && !isset($view->vars['attr']['id']) {
+        if ($form->isRoot() && !isset($view->vars['attr']['id'])) {
             $view->vars['attr']['id'] = $view->vars['id'];
         }
         
