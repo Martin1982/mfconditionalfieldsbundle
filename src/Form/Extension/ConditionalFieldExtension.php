@@ -25,7 +25,11 @@ class ConditionalFieldExtension extends AbstractTypeExtension
 
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        if ($form->isRoot() && $this->viewHasConditionalFields($view)) {
+        if ($form->isRoot() && !isset($view->vars['attr']['id']) {
+            $view->vars['attr']['id'] = $view->vars['id'];
+        }
+        
+        if ($this->viewHasConditionalFields($view)) {
             $factory = $form->getConfig()->getFormFactory();
             $jsBlock = $factory->createNamed('conditionalFieldJs', ConditionalFieldJsType::class);
 
@@ -33,7 +37,7 @@ class ConditionalFieldExtension extends AbstractTypeExtension
                 $view->vars['attr']['id'] = $view->vars['id'];
             }
             $view->children['conditionalFieldJs'] = $jsBlock->createView();
-            $view->children['conditionalFieldJs']->vars['form_id'] = '#' . $view->vars['attr']['id'];
+            $view->children['conditionalFieldJs']->vars['form_id'] = '#' . $form->getRoot()->getName();
         }
     }
 
