@@ -3,3 +3,7 @@ composer.lock
 
 .idea/
 vendor/
+
+.php-cs-fixer.cache
+.phpunit.cache/
+.phpunit.result.cache

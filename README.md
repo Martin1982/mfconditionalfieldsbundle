@@ -1,3 +1,21 @@
+MF Conditional Fields Bundle
+============================
+
+[![CI](https://github.com/Martin1982/mfconditionalfieldsbundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Martin1982/mfconditionalfieldsbundle/actions/workflows/ci.yml)
+[![Latest Stable Version](https://poser.pugx.org/martin1982/mfconditionalfieldsbundle/v)](https://packagist.org/packages/martin1982/mfconditionalfieldsbundle)
+[![License](https://poser.pugx.org/martin1982/mfconditionalfieldsbundle/license)](LICENSE)
+
+Show, hide, enable or disable Symfony form fields based on the values of other fields in
+the same form, without writing any JavaScript yourself.
+
+Requirements
+============
+
+| Requirement |          Supported |
+|:------------|-------------------:|
+| PHP         | 8.2, 8.3, 8.4, 8.5 |
+| Symfony     |           7.x, 8.x |
+
 Prerequisites
 =============
 
@@ -163,6 +181,25 @@ Future releases / Contribute
 
 This bundle includes a basic implementation. If you would like to contribute all options of the mf-conditional-fields
 bundle can be added.
+
+Every change is verified by the test suite, PHPStan and PHP-CS-Fixer. After cloning the
+repository and running `composer install` you can run the full quality assurance suite
+with:
+
+```console
+composer qa
+```
+
+Or run the individual tools:
+
+```console
+composer test     # PHPUnit
+composer phpstan  # Static analysis
+composer cs       # Coding standard (use composer cs-fix to apply it)
+```
+
+The same checks run on every pull request through GitHub Actions, against each supported
+PHP and Symfony combination. See [CHANGELOG.md](CHANGELOG.md) for the release history.
 
 Special thanks
 ==============

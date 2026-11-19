@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Martin1982\MfConditionalFieldsBundle\Rules;
 
 interface ConditionalRulesInterface
