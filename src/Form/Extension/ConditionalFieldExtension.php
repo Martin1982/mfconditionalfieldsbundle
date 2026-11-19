@@ -178,8 +178,29 @@ class ConditionalFieldExtension extends AbstractTypeExtension
 
         $view->vars['row_attr'] = array_merge(
             $view->vars['row_attr'],
-            ['class' => $conditionalOptions['container']],
+            ['class' => $this->addContainerClass($view->vars['row_attr']['class'] ?? null, $conditionalOptions['container'])],
         );
+    }
+
+    /**
+     * Adds the container class to the classes the form already declared on the row,
+     * instead of replacing them.
+     */
+    private function addContainerClass(mixed $existingClasses, string $container): string
+    {
+        $classes = \is_string($existingClasses)
+            ? preg_split('/\s+/', $existingClasses, -1, \PREG_SPLIT_NO_EMPTY)
+            : [];
+
+        if (false === $classes) {
+            $classes = [];
+        }
+
+        if (!\in_array($container, $classes, true)) {
+            $classes[] = $container;
+        }
+
+        return implode(' ', $classes);
     }
 
     private function viewHasConditionalFields(FormView $view): bool
