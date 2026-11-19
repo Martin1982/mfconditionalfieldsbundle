@@ -122,6 +122,57 @@ final class ConditionalFieldExtensionTest extends TestCase
         self::assertSame('attend[0]', $this->decodeRules($this->attributeFor($view->children['reason']))['rules'][0]['name']);
     }
 
+    public function testTheJavaScriptBlockIsAddedOnlyOnceForNestedForms(): void
+    {
+        $builder = $this->factory->createNamedBuilder('attend', FormType::class);
+        $details = $builder->create('details', FormType::class);
+        $guest = $details->create('guest', FormType::class);
+        $guest->add('reason', TextType::class, ['conditional_options' => self::conditionalOptions()]);
+        $details->add($guest);
+        $builder->add($details);
+
+        $view = $builder->getForm()->createView();
+
+        self::assertSame(1, $this->countJavaScriptBlocks($view));
+    }
+
+    public function testTheJavaScriptBlockIsAddedToTheRootFormOnly(): void
+    {
+        $builder = $this->factory->createNamedBuilder('attend', FormType::class);
+        $details = $builder->create('details', FormType::class);
+        $details->add('reason', TextType::class, ['conditional_options' => self::conditionalOptions()]);
+        $builder->add($details);
+
+        $view = $builder->getForm()->createView();
+
+        self::assertArrayHasKey('conditionalFieldJs', $view->children);
+        self::assertArrayNotHasKey('conditionalFieldJs', $view->children['details']->children);
+        self::assertSame('#attend', $view->children['conditionalFieldJs']->vars['form_id']);
+    }
+
+    public function testNestedCompoundViewsKeepTheirOwnRenderedId(): void
+    {
+        $builder = $this->factory->createNamedBuilder('attend', FormType::class);
+        $details = $builder->create('details', FormType::class);
+        $details->add('reason', TextType::class, ['conditional_options' => self::conditionalOptions()]);
+        $builder->add($details);
+
+        $view = $builder->getForm()->createView();
+
+        self::assertSame('attend', $view->vars['attr']['id']);
+        self::assertArrayNotHasKey('id', $view->children['details']->vars['attr']);
+    }
+
+    public function testTheJavaScriptBlockTargetsACustomRootFormId(): void
+    {
+        $view = $this->factory->createNamed('attend', FormType::class, null, ['attr' => ['id' => 'custom-form-id']])
+            ->add('reason', TextType::class, ['conditional_options' => self::conditionalOptions()])
+            ->createView();
+
+        self::assertSame('custom-form-id', $view->vars['attr']['id']);
+        self::assertSame('#custom-form-id', $view->children['conditionalFieldJs']->vars['form_id']);
+    }
+
     public function testEmptyOperatorsDoNotRequireAValue(): void
     {
         $options = $this->conditionalOptions();
@@ -265,6 +316,20 @@ final class ConditionalFieldExtensionTest extends TestCase
         self::assertIsString($view->vars['attr']['data-conditional-rules']);
 
         return $view->vars['attr']['data-conditional-rules'];
+    }
+
+    private function countJavaScriptBlocks(FormView $view): int
+    {
+        $count = 0;
+        foreach ($view->children as $name => $child) {
+            if ('conditionalFieldJs' === $name) {
+                ++$count;
+            }
+
+            $count += $this->countJavaScriptBlocks($child);
+        }
+
+        return $count;
     }
 
     /**

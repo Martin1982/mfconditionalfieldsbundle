@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- The initialization script was repeated once per nested compound form that contained
+  conditional fields, so a three level deep form emitted it three times and initialized the
+  same form repeatedly. It is now added to the root form view only.
+- The initialization script now targets the root form's actual rendered id instead of the
+  form name, so forms with a custom `attr.id` are initialized correctly.
+
 ## [1.2.0] - 2026-11-19
 
 ### Fixed
@@ -59,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
+[Unreleased]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.2.0...HEAD
 [1.2.0]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.1.4...1.2.0
 [1.1.4]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.1.3...1.1.4
 [1.1.3]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.1.2...1.1.3
