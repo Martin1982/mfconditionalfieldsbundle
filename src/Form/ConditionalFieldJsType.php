@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Martin1982\MfConditionalFieldsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -11,7 +13,7 @@ class ConditionalFieldJsType extends AbstractType
     {
         return 'conditional_field_js';
     }
-    
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
