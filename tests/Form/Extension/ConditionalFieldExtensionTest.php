@@ -66,6 +66,54 @@ final class ConditionalFieldExtensionTest extends TestCase
         self::assertSame('reason-container', $view->children['reason']->vars['row_attr']['class']);
     }
 
+    public function testAnExistingRowClassIsKeptAlongsideTheContainer(): void
+    {
+        $view = $this->factory->createNamed('attend', FormType::class)
+            ->add('reason', TextType::class, [
+                'row_attr' => ['class' => 'mb-3'],
+                'conditional_options' => self::conditionalOptions(),
+            ])
+            ->createView();
+
+        self::assertSame('mb-3 reason-container', $view->children['reason']->vars['row_attr']['class']);
+    }
+
+    public function testEveryExistingRowClassIsKept(): void
+    {
+        $view = $this->factory->createNamed('attend', FormType::class)
+            ->add('reason', TextType::class, [
+                'row_attr' => ['class' => 'mb-3   form-floating'],
+                'conditional_options' => self::conditionalOptions(),
+            ])
+            ->createView();
+
+        self::assertSame('mb-3 form-floating reason-container', $view->children['reason']->vars['row_attr']['class']);
+    }
+
+    public function testTheContainerClassIsNotRepeatedWhenAlreadyPresent(): void
+    {
+        $view = $this->factory->createNamed('attend', FormType::class)
+            ->add('reason', TextType::class, [
+                'row_attr' => ['class' => 'reason-container mb-3'],
+                'conditional_options' => self::conditionalOptions(),
+            ])
+            ->createView();
+
+        self::assertSame('reason-container mb-3', $view->children['reason']->vars['row_attr']['class']);
+    }
+
+    public function testOtherRowAttributesAreUntouched(): void
+    {
+        $view = $this->factory->createNamed('attend', FormType::class)
+            ->add('reason', TextType::class, [
+                'row_attr' => ['class' => 'mb-3', 'data-test' => 'kept'],
+                'conditional_options' => self::conditionalOptions(),
+            ])
+            ->createView();
+
+        self::assertSame('kept', $view->children['reason']->vars['row_attr']['data-test']);
+    }
+
     public function testRootFormReceivesAnIdAndTheJavaScriptBlock(): void
     {
         $view = $this->createAttendForm()->createView();

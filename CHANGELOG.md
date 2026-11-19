@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- `conditional_options.container` replaced any class the form already declared through
+  `row_attr`, silently dropping it. The container class is now added to the existing classes
+  instead, and is not repeated when it is already present.
+
 ## [1.2.1] - 2026-11-19
 
 ### Fixed
@@ -68,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
+[Unreleased]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.2.1...HEAD
 [1.2.1]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.1.4...1.2.0
 [1.1.4]: https://github.com/Martin1982/mfconditionalfieldsbundle/compare/1.1.3...1.1.4
