@@ -2,7 +2,19 @@
   "name": "martin1982/mfconditionalfieldsbundle",
   "description": "Symfony MF Conditional Fields bundle",
   "type": "symfony-bundle",
+  "keywords": ["symfony", "symfony-bundle", "form", "conditional-fields", "twig"],
+  "homepage": "https://github.com/Martin1982/mfconditionalfieldsbundle",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin de Keijzer",
+      "homepage": "https://github.com/Martin1982"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/Martin1982/mfconditionalfieldsbundle/issues",
+    "source": "https://github.com/Martin1982/mfconditionalfieldsbundle"
+  },
   "autoload": {
     "psr-4": {
       "Martin1982\\MfConditionalFieldsBundle\\": "src/"
@@ -18,6 +30,33 @@
     "symfony/config": "^7.0|^8.0",
     "symfony/dependency-injection": "^7.0|^8.0",
     "symfony/form": "^7.0|^8.0",
-    "symfony/http-kernel": "^7.0|^8.0"
+    "symfony/http-kernel": "^7.0|^8.0",
+    "symfony/options-resolver": "^7.0|^8.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "phpstan/phpstan": "^2.3",
+    "phpunit/phpunit": "^11.5|^12.5|^13.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "cs": "php-cs-fixer fix --dry-run --diff",
+    "cs-fix": "php-cs-fixer fix",
+    "phpstan": "phpstan analyse",
+    "test": "phpunit",
+    "qa": [
+      "@cs",
+      "@phpstan",
+      "@test"
+    ]
+  },
+  "scripts-descriptions": {
+    "cs": "Check the coding standard without modifying files",
+    "cs-fix": "Apply the coding standard",
+    "phpstan": "Run static analysis",
+    "test": "Run the test suite",
+    "qa": "Run the full quality assurance suite"
   }
 }
